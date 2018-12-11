@@ -1,4 +1,10 @@
-import { query as queryUsers, queryCurrent } from '@/services/user';
+import {
+  query as queryUsers,
+  queryCurrent,
+  createUser,
+  updateUser,
+  removeUser,
+} from '@/services/user';
 
 export default {
   namespace: 'user',
@@ -9,8 +15,11 @@ export default {
   },
 
   effects: {
-    *fetch(_, { call, put }) {
-      const response = yield call(queryUsers);
+    *fetch({ payload }, { call, put }) {
+      if (!payload) {
+        payload = { page: 1 };
+      }
+      const response = yield call(queryUsers, payload);
       yield put({
         type: 'save',
         payload: response,
@@ -22,6 +31,20 @@ export default {
         type: 'saveCurrentUser',
         payload: response,
       });
+    },
+    *createUser({ payload, callback }, { call, put }) {
+      const response = yield call(createUser, payload);
+      callback(response);
+    },
+
+    *removeUser({ payload, callback }, { call, put }) {
+      const response = yield call(removeUser, payload);
+      callback(response);
+    },
+
+    *updateUser({ payload, callback }, { call, put }) {
+      const response = yield call(updateUser, payload);
+      callback(response);
     },
   },
 

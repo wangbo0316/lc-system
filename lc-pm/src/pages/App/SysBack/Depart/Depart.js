@@ -6,7 +6,7 @@ import { connect } from 'dva';
 import AddModal from './AddModal';
 import UpdateModal from './UpdateModal';
 
-@connect(({ depart, loading }) => ({
+@connect(({ depart, user, loading }) => ({
   depart,
   loading: loading.effects['depart/fetch'],
 }))

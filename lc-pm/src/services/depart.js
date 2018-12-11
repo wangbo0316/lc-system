@@ -22,7 +22,6 @@ export async function getDepartList(params) {
 }
 
 export async function removeDepart(params) {
-  const { count = 5, ...restParams } = params;
   return request(`/api/depart/${params}/`, {
     method: 'DELETE',
   });

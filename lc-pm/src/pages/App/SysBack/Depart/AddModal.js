@@ -36,8 +36,7 @@ class AddModal extends Component {
     const handleCancel = () => {
       this.setState({ modal: false });
     };
-    const { getFieldDecorator, getFieldsError, getFieldError, isFieldTouched } = this.props.form;
-    const departNameError = isFieldTouched('depart_name') && getFieldError('depart_name');
+    const { getFieldDecorator } = this.props.form;
 
     return (
       <div>
