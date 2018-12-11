@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5ec0712d-6d6f-4656-bfbd-750b4f791f23" name="Default" comment="1">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/depart/migrations/0005_auto_20181211_1149.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/para/migrations/0002_auto_20181211_1152.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/performance/migrations/0002_auto_20181211_1152.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/apps/users/migrations/0007_auto_20181211_1152.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/../lc-pm/src/services/depart.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LcSystem/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/LcSystem/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/depart/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/depart/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/depart/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/depart/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/para/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/para/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/performance/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/performance/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/apps/users/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/apps/users/models.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lc-pm/src/models/depart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../lc-pm/src/models/depart.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lc-pm/src/pages/App/SysBack/Depart/AddModal.js" beforeDir="false" afterPath="$PROJECT_DIR$/../lc-pm/src/pages/App/SysBack/Depart/AddModal.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../lc-pm/src/pages/App/SysBack/Depart/Depart.js" beforeDir="false" afterPath="$PROJECT_DIR$/../lc-pm/src/pages/App/SysBack/Depart/Depart.js" afterDir="false" />
@@ -54,8 +42,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$USER_HOME$/.venvs/LcTech/lib/python3.6/site-packages/rest_framework/mixins.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="41" column="47" lean-forward="true" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
+            <state relative-caret-position="278">
+              <caret line="43" column="61" lean-forward="true" selection-start-line="43" selection-start-column="61" selection-end-line="43" selection-end-column="61" />
             </state>
           </provider>
         </entry>
@@ -291,10 +279,18 @@
       <workItem from="1544058659501" duration="10104000" />
       <workItem from="1544419712129" duration="7152000" />
     </task>
+    <task id="LOCAL-00001" summary="1">
+      <created>1544512778574</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1544512778601</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="35009000" />
+    <option name="totallyTimeSpent" value="35313000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="28" width="1600" height="872" extended-state="6" />
@@ -558,8 +554,8 @@
     </entry>
     <entry file="file://$USER_HOME$/.venvs/LcTech/lib/python3.6/site-packages/rest_framework/mixins.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="220">
-          <caret line="41" column="47" lean-forward="true" selection-start-line="41" selection-start-column="47" selection-end-line="41" selection-end-column="47" />
+        <state relative-caret-position="278">
+          <caret line="43" column="61" lean-forward="true" selection-start-line="43" selection-start-column="61" selection-end-line="43" selection-end-column="61" />
         </state>
       </provider>
     </entry>

@@ -2,8 +2,9 @@ import fetch from 'dva/fetch';
 import { notification } from 'antd';
 import router from 'umi/router';
 import hash from 'hash.js';
+import Cookie from 'js-cookie';
 import { isAntdPro } from './utils';
-import Cookie from 'js-cookie'
+
 
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
@@ -24,7 +25,7 @@ const codeMessage = {
 };
 
 const checkStatus = response => {
-  if (response.status >= 200 && response.status < 300) {
+  if (response.status !== 401) {
     return response;
   }
   const errortext = codeMessage[response.status] || response.statusText;
@@ -120,13 +121,13 @@ export default function request(
       sessionStorage.removeItem(`${hashcode}:timestamp`);
     }
   }
-  return fetch(url,
-    {...newOptions,
-      headers: {
-        //'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
-        'Content-Type': 'application/json',
-        'Authorization': Cookie.get('Authorization')
-      }
+  return fetch(url, {
+    ...newOptions,
+    headers: {
+      //'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+      'Content-Type': 'application/json',
+      Authorization: Cookie.get('Authorization'),
+    },
   })
     .then(checkStatus)
     .then(response => cachedSave(response, hashcode))

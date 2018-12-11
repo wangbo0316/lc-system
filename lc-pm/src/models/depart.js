@@ -1,4 +1,4 @@
-import {getDepartList } from '@/services/api';
+import { getDepartList, addDepart, removeDepart, updateDepart } from '@/services/depart';
 
 export default {
   namespace: 'depart',
@@ -8,37 +8,37 @@ export default {
   },
 
   effects: {
-    *fetch(_, { call, put }) {
-      const response = yield call(getDepartList);
+    *fetch({ payload }, { call, put }) {
+      if (!payload) {
+        payload = { page: 1 };
+      }
+      const response = yield call(getDepartList, payload);
       yield put({
         type: 'save',
         payload: response,
       });
+    },
+    *addDepart({ payload, callback }, { call, put }) {
+      const response = yield call(addDepart, payload);
+      callback(response);
+    },
+
+    *removeDepart({ payload, callback }, { call, put }) {
+      const response = yield call(removeDepart, payload);
+      callback(response);
+    },
+
+    *updateDepart({ payload, callback }, { call, put }) {
+      const response = yield call(updateDepart, payload);
+      callback(response);
     },
   },
 
   reducers: {
     save(state, action) {
       return {
-
         ...state,
         departList: action.payload,
-      };
-    },
-    saveCurrentUser(state, action) {
-      // console.log(action)
-      return {
-        ...state,
-        currentUser: action.payload.results[0] || {},
-      };
-    },
-    changeNotifyCount(state, action) {
-      return {
-        ...state,
-        currentUser: {
-          ...state.currentUser,
-          notifyCount: action.payload,
-        },
       };
     },
   },
