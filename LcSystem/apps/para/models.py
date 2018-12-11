@@ -8,7 +8,7 @@ class Para(models.Model):
     depart = models.ForeignKey(Department,verbose_name='部门',null=True,blank=True,on_delete=models.CASCADE)
     level = models.IntegerField(verbose_name='等级')
     content_json = models.TextField(verbose_name='参数表')
-    add_time = models.DateField(verbose_name='添加时间', default=datetime.now)
+    add_time = models.DateTimeField(verbose_name='添加时间', auto_now=True)
 
     class Meta:
         verbose_name = '参数表'

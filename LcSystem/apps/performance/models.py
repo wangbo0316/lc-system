@@ -10,7 +10,7 @@ class Performance(models.Model):
     self_evaluat = models.TextField(verbose_name='自评得分')
     second_evaluat = models.TextField(verbose_name='二次评价得分')
     status = models.IntegerField(verbose_name='审批进度')
-    add_time = models.DateField(verbose_name='添加时间',default=datetime.now)
+    add_time = models.DateTimeField(verbose_name='添加时间', auto_now=True)
 
     class Meta:
         verbose_name = '绩效考核表'

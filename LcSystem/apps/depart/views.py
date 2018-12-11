@@ -27,10 +27,12 @@ class DepartViewSet(viewsets.ModelViewSet):
         parent_dep = Department.objects.get(id = user.depart_id)
         request.data['parent'] = parent_dep.id
         serializer = self.get_serializer(data = request.data)
+        serializer.is_valid(raise_exception=True)
         depart = self.perform_create(serializer)
         re_dict = serializer.data
         headers = self.get_success_headers(serializer.data)
-        return depart
+        return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
+        # return depart
 
 
 
