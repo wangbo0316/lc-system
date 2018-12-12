@@ -17,7 +17,7 @@ from django.contrib import admin
 from django.urls import path,include,re_path
 from django.views.static import serve
 from .settings import MEDIA_ROOT
-from users.views import UserViewSet,CurrentUserViewSet
+from users.views import UserViewSet,CurrentUserViewSet,validateUsername
 from rest_framework.routers import DefaultRouter
 from depart.views import DepartViewSet
 from para.views import ParaViewSet,ParaListViewSet
@@ -39,6 +39,7 @@ router.register(r'currentUser', CurrentUserViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('valiUser/',validateUsername),
     re_path(r'media/(?P<path>.*)$',serve,{'document_root':MEDIA_ROOT}),
     path('', include(router.urls)),
     re_path(r'^api-auth/', include('rest_framework.urls')),

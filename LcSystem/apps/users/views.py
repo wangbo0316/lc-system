@@ -3,6 +3,7 @@ from depart.models import Department
 from .serializers import UserSerializer,CurrentUserSerializer
 from rest_framework import viewsets,mixins,status
 from rest_framework.response import Response
+from django.http import HttpResponse
 
 
 # Create your views here.
@@ -46,3 +47,22 @@ class UserViewSet(mixins.CreateModelMixin,mixins.ListModelMixin, mixins.UpdateMo
         headers = self.get_success_headers(serializer.data)
         return Response(re_dict, status=status.HTTP_201_CREATED, headers=headers)
 
+def validateUsername(req):
+    username = req.GET['username']
+    try:
+        user_id = req.GET['user_id']
+        user = UserProfile.objects.get(id = user_id)
+        if user.username == username:
+            return HttpResponse('OK')
+        else:
+            try:
+                user = UserProfile.objects.get(username = username)
+                return HttpResponse('NO')
+            except:
+                return HttpResponse('OK')
+    except:
+        try:
+            user = UserProfile.objects.get(username=username)
+            return HttpResponse('NO')
+        except:
+            return HttpResponse('OK')

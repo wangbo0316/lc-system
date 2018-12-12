@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal, Form, Input, message, Select, Switch, Icon } from 'antd';
-
+import axios from 'axios';
 const FormItem = Form.Item;
 const Option = Select.Option;
 
@@ -53,7 +53,21 @@ class CreateUser extends Component {
           <Form>
             <FormItem label="账号" labelCol={{ span: 5 }} wrapperCol={{ span: 17 }}>
               {getFieldDecorator('username', {
-                rules: [{ required: true, message: '请输入账号 !' }],
+                validateTrigger: 'onBlur',
+                rules: [
+                  {
+                    validator: (rule, value, callback) => {
+                      console.log(value);
+                      if (value) {
+                        axios.get(`/api/valiUser/?username=${value}`).then(res => {
+                          if (res.data === 'OK') {
+                            callback();
+                          } else callback('账号已经存在，换一个吧！');
+                        });
+                      } else callback('请输入账号！');
+                    },
+                  },
+                ],
               })(<Input />)}
             </FormItem>
             <FormItem label="姓名" labelCol={{ span: 5 }} wrapperCol={{ span: 17 }}>

@@ -5,7 +5,6 @@ import hash from 'hash.js';
 import Cookie from 'js-cookie';
 import { isAntdPro } from './utils';
 
-
 const codeMessage = {
   200: '服务器成功返回请求的数据。',
   201: '新建或修改数据成功。',
@@ -25,7 +24,8 @@ const codeMessage = {
 };
 
 const checkStatus = response => {
-  if (response.status !== 401) {
+  const noAllowd = [401, 404, 500, 504, 400];
+  if (noAllowd.indexOf(response.status) === -1) {
     return response;
   }
   const errortext = codeMessage[response.status] || response.statusText;
