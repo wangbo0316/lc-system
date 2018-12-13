@@ -4,11 +4,13 @@ from .serializers import UserSerializer,CurrentUserSerializer
 from rest_framework import viewsets,mixins,status
 from rest_framework.response import Response
 from django.http import HttpResponse
+from rest_framework.pagination import PageNumberPagination
 
 
 # Create your views here.
 
-
+class UserPagination(PageNumberPagination):
+    page_size = 10
 
 class CurrentUserViewSet(viewsets.GenericViewSet,mixins.ListModelMixin):
     '''
@@ -28,11 +30,13 @@ class CurrentUserViewSet(viewsets.GenericViewSet,mixins.ListModelMixin):
 class UserViewSet(mixins.CreateModelMixin,mixins.ListModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserSerializer
+    pagination_class = UserPagination
     def get_queryset(self):
         user = self.request.user
         parent_depart = Department.objects.get(id = user.depart_id)
         children_depart = parent_depart.sub.all()
         children_depart_ids = [i.id for i in children_depart]
+        children_depart_ids.append(user.depart_id)
         results = UserProfile.objects.filter(depart_id__in = children_depart_ids, level = (user.level+1))
         self.queryset = results.order_by('-add_time')
         return self.queryset
@@ -40,6 +44,11 @@ class UserViewSet(mixins.CreateModelMixin,mixins.ListModelMixin, mixins.UpdateMo
     def create(self, request, *args, **kwargs):
         user = self.request.user
         request.data['level'] = user.level + 1
+        if int(request.data['depart']) == user.depart_id:
+            request.data['is_superuser'] = 0
+        else:
+            request.data['is_superuser'] = 1
+        print(request.data['depart'],user.depart_id, request.data['is_superuser'])
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         self.perform_create(serializer)

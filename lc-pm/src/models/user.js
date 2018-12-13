@@ -59,7 +59,7 @@ export default {
       // console.log(action)
       return {
         ...state,
-        currentUser: action.payload.results[0] || {},
+        currentUser: action.payload[0] || {},
       };
     },
     changeNotifyCount(state, action) {

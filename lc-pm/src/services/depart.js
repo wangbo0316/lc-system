@@ -21,6 +21,11 @@ export async function getDepartList(params) {
   return request(`/api/depart/?page=${params.page}`);
 }
 
+export async function getDepartPara() {
+  return request('/api/departPara/');
+}
+
+
 export async function removeDepart(params) {
   return request(`/api/depart/${params}/`, {
     method: 'DELETE',

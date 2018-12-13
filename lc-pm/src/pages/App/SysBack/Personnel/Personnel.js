@@ -23,7 +23,7 @@ class Personnel extends Component {
       type: 'user/fetch',
     });
     dispatch({
-      type: 'depart/fetch',
+      type: 'depart/fetchPara',
     });
   }
 
@@ -31,7 +31,7 @@ class Personnel extends Component {
     const { user, depart } = this.props;
     const total = user.list.count;
     const userList = user.list.results;
-    const deparList = depart.departList.results;
+    const deparList = depart.departPara;
     let departDir = {};
     if (deparList) {
       deparList.map(item => {

@@ -17,24 +17,23 @@ from django.contrib import admin
 from django.urls import path,include,re_path
 from django.views.static import serve
 from .settings import MEDIA_ROOT
-from users.views import UserViewSet,CurrentUserViewSet,validateUsername
 from rest_framework.routers import DefaultRouter
-from depart.views import DepartViewSet
-from para.views import ParaViewSet,ParaListViewSet
 from performance.views import PerformanceViewSet,PfListViewSet
 from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
-
+from users.views import UserViewSet,CurrentUserViewSet,validateUsername
+from depart.views import DepartViewSet,DepartParaViewSet
+from para.views import ParaViewSet
 
 
 router = DefaultRouter()
 router.register(r'user', UserViewSet)                   # ? user_id & search
 router.register(r'depart', DepartViewSet)               # ? user_id & search
-router.register(r'para', ParaViewSet)                   # ? depart & level
-router.register(r'paraList', ParaListViewSet)           # ? user_id & search
+router.register(r'para', ParaViewSet)           # ? user_id & search
 router.register(r'performance', PerformanceViewSet)     # ? user & search
 router.register(r'pfList', PfListViewSet)               # ? user_id & search
 router.register(r'currentUser', CurrentUserViewSet)
+router.register(r'departPara', DepartParaViewSet)
 
 
 urlpatterns = [

@@ -89,18 +89,6 @@ class CreateUser extends Component {
                 </Select>
               )}
             </FormItem>
-            <FormItem label="是否管理者" labelCol={{ span: 5 }} wrapperCol={{ span: 17 }}>
-              {getFieldDecorator('is_superuser', {
-                rules: [{ required: true, message: '请输入账号 !' }],
-                initialValue: true,
-              })(
-                <Switch
-                  checkedChildren={<Icon type="check" />}
-                  unCheckedChildren={<Icon type="close" />}
-                  defaultChecked
-                />
-              )}
-            </FormItem>
           </Form>
         </Modal>
       </div>

@@ -1,10 +1,11 @@
-import { getDepartList, addDepart, removeDepart, updateDepart } from '@/services/depart';
+import { getDepartList, addDepart, removeDepart, updateDepart ,getDepartPara} from '@/services/depart';
 
 export default {
   namespace: 'depart',
 
   state: {
     departList: [],
+    departPara:[],
   },
 
   effects: {
@@ -18,6 +19,16 @@ export default {
         payload: response,
       });
     },
+
+    *fetchPara(_, { call, put }) {
+
+      const response = yield call(getDepartPara);
+      yield put({
+        type: 'savePara',
+        payload: response,
+      });
+    },
+
     *addDepart({ payload, callback }, { call, put }) {
       const response = yield call(addDepart, payload);
       callback(response);
@@ -39,6 +50,13 @@ export default {
       return {
         ...state,
         departList: action.payload,
+      };
+    },
+    savePara(state, action) {
+      console.log(action)
+      return {
+        ...state,
+        departPara: action.payload,
       };
     },
   },

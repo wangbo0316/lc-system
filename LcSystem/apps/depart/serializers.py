@@ -9,11 +9,38 @@ Created On 18-11-13 下午3:06
 
 from rest_framework import serializers
 from .models import Department
+from para.models import Para
 
 class DepartSerializer(serializers.ModelSerializer):
+    level = serializers.CharField(required=False, write_only=True, max_length=4)
+    lev = ""
     class Meta:
         model = Department
-        fields = '__all__'
+        fields = ('id','depart_name','parent','add_time','level')
+
+    def validate_level(self,level):
+        try:
+            self.lev = level
+        except:
+            pass
+
+
+    def validate(self, attrs):
+        try:
+            del attrs['level']
+        except:
+            pass
+        return attrs
+
+    def create(self, validated_data):
+        depart = Department.objects.create(**validated_data)
+        depart.save()
+        para_data = {}
+        para_data['depart_id'] = depart.id
+        para_data['level'] = int(self.lev) + 1
+        para = Para.objects.create(**para_data)
+        para.save()
+        return depart
 
 
 

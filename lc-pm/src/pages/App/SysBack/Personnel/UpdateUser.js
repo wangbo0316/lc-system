@@ -98,18 +98,6 @@ class UpdateUser extends Component {
                 </Select>
               )}
             </FormItem>
-            <FormItem label="是否管理者" labelCol={{ span: 5 }} wrapperCol={{ span: 17 }}>
-              {getFieldDecorator('is_superuser', {
-                rules: [{ required: true, message: '请输入账号 !' }],
-                initialValue: record.is_superuser,
-              })(
-                <Switch
-                  checkedChildren={<Icon type="check" />}
-                  unCheckedChildren={<Icon type="close" />}
-                  defaultChecked={record.is_superuser}
-                />
-              )}
-            </FormItem>
           </Form>
         </Modal>
       </div>
