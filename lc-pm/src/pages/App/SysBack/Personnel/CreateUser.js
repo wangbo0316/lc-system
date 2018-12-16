@@ -7,9 +7,18 @@ const Option = Select.Option;
 class CreateUser extends Component {
   state = {
     modal: false,
+    swichVisible:false,
+    swichCheck:false
   };
 
   render() {
+    const changeSelect = (v) => {
+      const {curr} = this.props;
+      if (parseInt(v) === curr.depart){
+        this.props.form.setFieldsValue({ is_superuser: false });
+        this.setState({swichVisible:true,swichCheck:false})
+      }else this.setState({swichVisible:false})
+    };
     const handleOk = () => {
       this.props.form.validateFields((err, values) => {
         if (!err) {
@@ -79,7 +88,7 @@ class CreateUser extends Component {
               {getFieldDecorator('depart', {
                 rules: [{ required: true, message: '请选择部门 !' }],
               })(
-                <Select>
+                <Select onChange={changeSelect}>
                   {departList.map(item => (
                     <Option value={item.id} key={item.id}>
                       {' '}
@@ -88,6 +97,11 @@ class CreateUser extends Component {
                   ))}
                 </Select>
               )}
+            </FormItem>
+            <FormItem label="是否管理者" labelCol={{ span: 5 }} wrapperCol={{offset:15, span: 2 }}>
+              {getFieldDecorator('is_superuser', {
+                initialValue: false,
+              })(<Switch checked={this.state.swichCheck} onChange={cheack=>this.setState({swichCheck:cheack})} disabled={this.state.swichVisible} size="small" />)}
             </FormItem>
           </Form>
         </Modal>

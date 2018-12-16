@@ -8,9 +8,19 @@ const Option = Select.Option;
 class UpdateUser extends Component {
   state = {
     modal: false,
+    swichVisible:this.props.curr.depart === this.props.record.depart,
+    swichCheck:this.props.record.is_superuser
   };
 
   render() {
+    const changeSelect = (v) => {
+      const {curr} = this.props;
+      if (parseInt(v) === curr.depart){
+        this.props.form.setFieldsValue({ is_superuser: false });
+        this.setState({swichVisible:true,swichCheck:false})
+      }else this.setState({swichVisible:false})
+    };
+
     const handleOk = () => {
       this.props.form.validateFields((err, values) => {
         if (!err) {
@@ -53,7 +63,7 @@ class UpdateUser extends Component {
           shape="circle"
           icon="edit"
         />
-        <Modal title="添加部门" visible={this.state.modal} onOk={handleOk} onCancel={handleCancel}>
+        <Modal title="修改用户信息" visible={this.state.modal} onOk={handleOk} onCancel={handleCancel}>
           <Form>
             <FormItem label="账号" labelCol={{ span: 5 }} wrapperCol={{ span: 17 }}>
               {getFieldDecorator('username', {
@@ -88,15 +98,20 @@ class UpdateUser extends Component {
                 rules: [{ required: true, message: '请选择部门 !' }],
                 initialValue: record.depart,
               })(
-                <Select>
+                <Select  onChange={changeSelect}>
                   {departList.map(item => (
-                    <Option value={item.id} key={item.id}>
+                    <Option  value={item.id} key={item.id}>
                       {' '}
                       {item.name}{' '}
                     </Option>
                   ))}
                 </Select>
               )}
+            </FormItem>
+            <FormItem label="是否管理者" labelCol={{ span: 5 }} wrapperCol={{offset:15, span: 2 }}>
+              {getFieldDecorator('is_superuser', {
+                initialValue: record.is_superuser,
+              })(<Switch checked={this.state.swichCheck} onChange={cheack=>this.setState({swichCheck:cheack})} disabled={this.state.swichVisible} size="small" />)}
             </FormItem>
           </Form>
         </Modal>

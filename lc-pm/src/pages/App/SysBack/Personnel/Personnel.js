@@ -29,6 +29,7 @@ class Personnel extends Component {
 
   render() {
     const { user, depart } = this.props;
+    const {currentUser} = user
     const total = user.list.count;
     const userList = user.list.results;
     const deparList = depart.departPara;
@@ -87,7 +88,7 @@ class Personnel extends Component {
           return (
             <Row>
               <Col offset={13} span={4}>
-                <UpdateUser dispatch={dispatch} record={record} departDir={departDir} />
+                <UpdateUser curr={currentUser} dispatch={dispatch} record={record} departDir={departDir} />
               </Col>
               <Col span={3}>
                 <Divider type="vertical" />
@@ -121,7 +122,7 @@ class Personnel extends Component {
           <Col offset={1} span={22}>
             <Card
               title="人员管理"
-              extra={<CreateUser dispatch={dispatch} departDir={departDir} />}
+              extra={<CreateUser curr={currentUser} dispatch={dispatch} departDir={departDir} />}
               style={{ minHeight: 800 }}
             >
               <Table

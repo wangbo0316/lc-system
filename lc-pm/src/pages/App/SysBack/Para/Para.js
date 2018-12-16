@@ -3,7 +3,7 @@ import {connect} from 'dva'
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import {Row,Col,Card,List,Modal} from 'antd'
 import styles from './Para.less'
-
+import UpdatePara from './UpdatePara'
 @connect(({ para,  loading }) => ({
   para,
   loading: loading.effects['para/fetch'],
@@ -28,7 +28,7 @@ class Para extends Component {
   }
 
   render() {
-    const {para} = this.props;
+    const {para,dispatch} = this.props;
     const data = para.paraList;
 
 
@@ -66,6 +66,7 @@ class Para extends Component {
                       <Card
                         title={<a onClick={showDetail} >{item.depart.depart_name}</a>}
                         style={{ minHeight: 200 }}
+                        extra={<UpdatePara  dispatch={dispatch} data={vo} />}
                       >
                         {
                           json_keys.length>0?json_keys.map((value , key)=>

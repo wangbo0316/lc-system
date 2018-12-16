@@ -46,8 +46,6 @@ class UserViewSet(mixins.CreateModelMixin,mixins.ListModelMixin, mixins.UpdateMo
         request.data['level'] = user.level + 1
         if int(request.data['depart']) == user.depart_id:
             request.data['is_superuser'] = 0
-        else:
-            request.data['is_superuser'] = 1
         print(request.data['depart'],user.depart_id, request.data['is_superuser'])
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)

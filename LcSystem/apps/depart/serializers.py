@@ -40,6 +40,11 @@ class DepartSerializer(serializers.ModelSerializer):
         para_data['level'] = int(self.lev) + 1
         para = Para.objects.create(**para_data)
         para.save()
+        para2_data = {}
+        para2_data['depart_id'] = depart.id
+        para2_data['level'] = int(self.lev) + 2
+        para2 = Para.objects.create(**para2_data)
+        para2.save()
         return depart
 
 

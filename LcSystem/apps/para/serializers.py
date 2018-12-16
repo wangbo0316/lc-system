@@ -17,3 +17,8 @@ class ParaSerializer(serializers.ModelSerializer):
     class Meta:
         model = Para
         fields = '__all__'
+
+class UpdateParaSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Para
+        fields = ['content_json']

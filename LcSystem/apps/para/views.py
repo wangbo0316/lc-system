@@ -1,11 +1,11 @@
 from .models import Para
 from depart.models import Department
-from .serializers import ParaSerializer
+from .serializers import ParaSerializer,UpdateParaSerializer
 from rest_framework import viewsets,mixins
 # Create your views here.
 
 
-class ParaViewSet(viewsets.GenericViewSet,mixins.UpdateModelMixin,mixins.ListModelMixin):
+class ParaViewSet(viewsets.GenericViewSet,mixins.ListModelMixin):
     '''
     参数列表
     '''
@@ -24,3 +24,6 @@ class ParaViewSet(viewsets.GenericViewSet,mixins.UpdateModelMixin,mixins.ListMod
         self.queryset = results.order_by('-add_time')
         return self.queryset
 
+class UpdateParaViewSet(viewsets.GenericViewSet,mixins.UpdateModelMixin):
+    queryset = Para.objects.all()
+    serializer_class = UpdateParaSerializer

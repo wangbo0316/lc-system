@@ -17,10 +17,8 @@ export default {
     },
 
     *update({ payload ,callback}, { call, put }) {
-
       const response = yield call(updatePara,payload);
       callback(response)
-
     },
 
   },

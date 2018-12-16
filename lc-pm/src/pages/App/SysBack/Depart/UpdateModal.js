@@ -17,7 +17,6 @@ class UpdateModal extends Component {
             type: 'depart/updateDepart',
             payload: { ...values, id: record.id },
             callback: res => {
-              console.log(res);
               if (res) {
                 message.success('部门信息修改成功！');
               } else {
