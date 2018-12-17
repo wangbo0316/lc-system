@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import styles from './Performance.less'
 import CreatForm from '../CreatForm/CreatForm'
-import axios from 'axios'
+import Withline from '../Withline'
 
 
 const Step = Steps.Step;
@@ -21,6 +21,7 @@ class Performance extends  Component{
     for (let i = 1 ; i < 4 ; i++){
       data.push({
         name:`${i}月绩效评分`,
+        cvr: Math.ceil(Math.random() * 9) / 10,
         person:'吴亚琴',
         status: Math.round(Math.random()*3+1),
         costControl:Math.round(Math.random()*10),
@@ -38,10 +39,7 @@ class Performance extends  Component{
     this.setState({data:data,infomation:data[0]})
   }
 
-
-
   render(){
-
 
     const columns = [
       {
@@ -79,92 +77,43 @@ class Performance extends  Component{
         }
     }];
 
-
-
     return(
       <GridContent>
-      <Row>
-        {/*事项列表*/}
-        <Col  span={10}>
-          <Card
-            title="绩效列表"
-            extra={<CreatForm type="primary" />}
-          >
-            <Table
-              columns={columns}
-              dataSource={this.state.data}
-              pagination={{ pageSize: this.state.data.length,hideOnSinglePage:true }}
-              scroll={{ y: 370 }}
-              style={{minHeight:424,maxHeight:424}}
-            />
-          </Card>
+        {/*view*/}
+        <Row>
+          {/*sum and steps*/}
+          <Col span={17}>
+            <Card
+            >
+              <p style={{fontWeight:'bold',fontFamily:'微软雅黑'}} >
+                {this.state.infomation.name}:
+              </p>
+              <p style={{textAlign:'center',fontSize:'3rem',fontWeight:'bold',fontFamily:'微软雅黑'}} >
+                {this.state.infomation.sum}
+                <span style={{fontSize:'1rem',fontWeight:'normal'}} >&nbsp;&nbsp;&nbsp;分</span>
+              </p>
+              <p style={{fontWeight:'bold',fontFamily:'微软雅黑'}} >
+                当前进度:
+              </p>
+              <Steps style={{marginTop:35}} current={1}>
+                <Step title="Finished" description="This is a description." />
+                <Step title="In Progress" description="This is a description." />
+                <Step title="Waiting" description="This is a description." />
+              </Steps>
 
-        </Col>
-        {/*事项信息*/}
-        <Col offset={1} span={13}>
-          <Card
-            title="绩效信息"
-            extra= {this.state.infomation.name}
-            style={{height:541}}
-          >
-            <Row>
-              <Col span={24}>
-                <p className={styles.totalLable}>绩效总分 : </p>
-              </Col>
-              <Col span={24}>
-                <p className={styles.totalScore}>{this.state.infomation.sum?this.state.infomation.sum:'--'}</p>
-              </Col>
-              <Row  style={{marginTop:100}}>
-                <Col offset={1} span={4}>
-                  <p className={styles.score}>成本控制 : {this.state.infomation.costControl?this.state.infomation.costControl:'--'}</p>
-                </Col>
-                <Col offset={2} span={4}>
-                  <p className={styles.score}>内外部客户 : {this.state.infomation.client?this.state.infomation.client:'--'}</p>
-                </Col>
-                <Col offset={2} span={4}>
-                  <p className={styles.score}>计划达成 : {this.state.infomation.planAchieve?this.state.infomation.planAchieve:'--'}</p>
-                </Col>
-                <Col offset={2} span={4}>
-                  <p className={styles.score}>团队协作 : {this.state.infomation.teamWork?this.state.infomation.teamWork:'--'}</p>
-                </Col>
-              </Row>
-              <Row style={{marginTop:80}}>
+            </Card>
+          </Col>
+          {/*chart*/}
+          <Col  span={7}>
+            <Card
+            >
+              <Withline/>
+            </Card>
+          </Col>
+        </Row>
+        {/*list*/}
 
-                <Col offset={1} span={4}>
-                  <p className={styles.score}>工作态度 : {this.state.infomation.workAttitude?this.state.infomation.workAttitude:'--'}</p>
-                </Col>
-                <Col offset={2} span={4}>
-                  <p className={styles.score}>遵守制度 : {this.state.infomation.systemObey?this.state.infomation.systemObey:'--'}</p>
-                </Col>
-                <Col offset={2} span={4}>
-                  <p className={styles.score}>技能提升 : {this.state.infomation.skillUp?this.state.infomation.skillUp:'--'}</p>
-                </Col>
-                <Col offset={2} span={4}>
-                  <p className={styles.score}>额外加分 : {this.state.infomation.extraCredit?this.state.infomation.extraCredit:'--'}</p>
-                </Col>
-              </Row>
-            </Row>
-
-          </Card>
-        </Col>
-        {/*事项进度*/}
-        <Col  className={styles.secondRow} span={24}>
-          <Card
-            title="当前进度"
-            style={{height:250}}
-          >
-            <Steps className={styles.step} current={this.state.infomation.status}>
-              <Step title="自评" description={`绩效总分:${this.state.infomation.sum}`} />
-              <Step title="组长评分" description={this.state.infomation.status>1?'已处理':'等待处理'} />
-              <Step title="经理评分" description={this.state.infomation.status>2?'已处理':'等待处理'} />
-              <Step title="人事确认" description={this.state.infomation.status>3?`最终得分:${this.state.infomation.sum}`:'等待处理'} />
-            </Steps>
-          </Card>
-        </Col>
-      </Row>
       </GridContent>
     )}
-
-
 }
 export default Performance

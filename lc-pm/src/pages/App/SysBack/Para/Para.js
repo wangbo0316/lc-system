@@ -43,7 +43,7 @@ class Para extends Component {
             >
               <List
                 grid={{
-                  gutter: 16, xs: 1, sm: 2, md: 4, lg: 4, xl: 6, xxl: 3,
+                  gutter: 16, xs: 3, sm: 3, md:3, lg: 3, xl: 3, xxl:1,
                 }}
                 dataSource={data}
                 renderItem={item => {

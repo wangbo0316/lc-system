@@ -93,9 +93,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'lc_sys',
         'USER': 'wangbo',
-        'PASSWORD': 'wb0316',
+        'PASSWORD': 'lc2018',
         # 'HOST': '192.168.1.113',
-        'HOST': 'localhost',
+        'HOST': '117.187.193.36',
+		'PORT':33060,
     }
 }
 
