@@ -101,7 +101,7 @@ class Personnel extends Component {
                   okText="是的"
                   cancelText="不"
                 >
-                  <Button type="danger" shape="circle" icon="delete" />
+                  <Button type="danger" ghost shape="circle" icon="delete" />
                 </Popconfirm>
               </Col>
             </Row>

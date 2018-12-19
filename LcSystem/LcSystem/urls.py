@@ -23,7 +23,7 @@ from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
 from users.views import UserViewSet,CurrentUserViewSet,validateUsername
 from depart.views import DepartViewSet,DepartParaViewSet
-from para.views import ParaViewSet,UpdateParaViewSet
+from para.views import ParaViewSet,UpdateParaViewSet,CurrtentParaViewSet
 
 
 router = DefaultRouter()
@@ -31,10 +31,11 @@ router.register(r'user', UserViewSet)                   # ? user_id & search
 router.register(r'depart', DepartViewSet)               # ? user_id & search
 router.register(r'para', ParaViewSet)           # ? user_id & search
 router.register(r'performance', PerformanceViewSet)     # ? user & search
-router.register(r'pfList', PfListViewSet)               # ? user_id & search
+router.register(r'getTranList', PfListViewSet)               # ? user_id & search
 router.register(r'currentUser', CurrentUserViewSet)
 router.register(r'departPara', DepartParaViewSet)
 router.register(r'updatePara', UpdateParaViewSet)
+router.register(r'getCurrPara', CurrtentParaViewSet)
 
 
 urlpatterns = [

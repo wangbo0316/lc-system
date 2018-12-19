@@ -69,11 +69,11 @@ class Withline extends React.Component {
         max: 80
       }
     };
-    console.log(window.innerHeight);
+
     return (
       <div>
         <Chart
-          height={window.innerHeight/3}
+          height={263}
           data={dv}
           padding={[0, 0, 0, 0]}
           scale={cols}

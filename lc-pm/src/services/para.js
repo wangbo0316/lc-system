@@ -12,3 +12,9 @@ export async function getParaList() {
   return request('/api/para/');
 }
 
+export async function getCurrPara() {
+  return request('/api/getCurrPara/');
+}
+
+
+

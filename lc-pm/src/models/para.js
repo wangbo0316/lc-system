@@ -1,10 +1,11 @@
-import { updatePara,getParaList} from '@/services/para';
+import { updatePara,getParaList,getCurrPara} from '@/services/para';
 
 export default {
   namespace: 'para',
 
   state: {
     paraList: [],
+    currPara:{},
   },
 
   effects: {
@@ -12,6 +13,14 @@ export default {
       const response = yield call(getParaList);
       yield put({
         type: 'save',
+        payload: response,
+      });
+    },
+
+    *getCurrPara(_, { call, put }) {
+      const response = yield call(getCurrPara);
+      yield put({
+        type: 'saveCurrPara',
         payload: response,
       });
     },
@@ -28,6 +37,13 @@ export default {
       return {
         ...state,
         paraList: action.payload,
+      };
+    },
+
+    saveCurrPara(state, action) {
+      return {
+        ...state,
+        currPara: action.payload[0],
       };
     },
   },

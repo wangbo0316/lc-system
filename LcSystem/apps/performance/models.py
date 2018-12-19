@@ -11,6 +11,8 @@ class Performance(models.Model):
     second_evaluat = models.TextField(verbose_name='二次评价得分')
     status = models.IntegerField(verbose_name='审批进度')
     add_time = models.DateTimeField(verbose_name='添加时间', auto_now=True)
+    sum = models.DecimalField(max_digits=10,decimal_places=2,verbose_name='自评总分')
+    second_sum = models.DecimalField(max_digits=10,decimal_places=2,verbose_name='二次评价总分')
 
     class Meta:
         verbose_name = '绩效考核表'

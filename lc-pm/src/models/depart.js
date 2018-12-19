@@ -53,7 +53,6 @@ export default {
       };
     },
     savePara(state, action) {
-      console.log(action)
       return {
         ...state,
         departPara: action.payload,

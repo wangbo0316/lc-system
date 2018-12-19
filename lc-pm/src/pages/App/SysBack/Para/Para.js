@@ -65,7 +65,7 @@ class Para extends Component {
                     <List.Item>
                       <Card
                         title={<a onClick={showDetail} >{item.depart.depart_name}</a>}
-                        style={{ minHeight: 200 }}
+                        style={{ height: 205 }}
                         extra={<UpdatePara  dispatch={dispatch} data={vo} />}
                       >
                         {

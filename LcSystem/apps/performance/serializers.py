@@ -17,8 +17,10 @@ class PerformanceSerializer(serializers.ModelSerializer):
         model = Performance
         fields = '__all__'
 
+
+
 class PfListSerializer(serializers.ModelSerializer):
-    user = UserSerializer
+    user = UserSerializer()
     class Meta:
         model = Performance
         fields = '__all__'

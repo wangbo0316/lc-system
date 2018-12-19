@@ -1,117 +1,199 @@
-import { Row, Col, Card, Tooltip ,Steps, Table ,Button} from 'antd';
+import { Row, Col, Card, Popconfirm ,Steps, List ,Button,Icon,Divider,message} from 'antd';
 import { connect } from 'dva';
 import React, { Component } from 'react';
 import GridContent from '@/components/PageHeaderWrapper/GridContent';
 import styles from './Performance.less'
-import CreatForm from '../CreatForm/CreatForm'
+import CreatPF from './CreatPF'
+import UpdatePF from './UpdatePF'
 import Withline from '../Withline'
-
-
 const Step = Steps.Step;
+
+
+@connect(({performance,user,loading}) => ({
+  performance,
+  user,
+  loading:loading.effects['performance/getPfList']
+}))
+
+
 
 class Performance extends  Component{
 
   state = {
-    infomation : {},
     data:[],
-
-  };
-  componentDidMount(){
-    let data = []
-    for (let i = 1 ; i < 4 ; i++){
-      data.push({
-        name:`${i}月绩效评分`,
-        cvr: Math.ceil(Math.random() * 9) / 10,
-        person:'吴亚琴',
-        status: Math.round(Math.random()*3+1),
-        costControl:Math.round(Math.random()*10),
-        client:Math.round(Math.random()*10),
-        planAchieve:Math.round(Math.random()*10),
-        workAttitude:Math.round(Math.random()*10),
-        systemObey:Math.round(Math.random()*10),
-        skillUp:Math.round(Math.random()*10),
-        teamWork:Math.round(Math.random()*10),
-        extraCredit:Math.round(Math.random()*10),
-        sum:Math.round(Math.random()*100),
-        resonance:'这里是原因这里是原因这里是原因这里是原因这里是原因这里是原因这里是原因这里是原因',
-      })
+    information : {
+      pf_name : '--' ,
+      user : 0,
+      self_evaluat : '',
+      second_evaluat : '',
+      status : 0,
+      add_time : '',
+      sum : 0,
+      second_sum : 0,
     }
-    this.setState({data:data,infomation:data[0]})
+  };
+
+  componentWillMount() {
+    const {dispatch} = this.props;
+    dispatch({
+      type:'performance/getPfList',
+      callback:(res)=>{
+        if (res.length){this.setState({data:res,information:res[0]})}
+
+      }
+    });
   }
 
   render(){
-
-    const columns = [
-      {
-      title: '事项',
-      dataIndex: 'name',
-      render:(text,record,index) => {
-        const clickA = () => {
-          this.setState({infomation:this.state.data[index]})
-        }
-        return(<a onClick={clickA}>{text}</a>)
-      },
-
-    },
-      {
-      title: '处理人',
-      dataIndex: 'person',
-    },
-      {
-        title: '当前进度',
-        dataIndex: 'status',
-        render:(text,record,index)=>{
-          if (text === 1){
-
-            return('组长评分')
-          }
-          if (text === 2){
-            return('经理评分')
-          }
-          if (text === 3){
-            return('人事确认')
-          }
-          if (text === 4){
-            return('已完成')
-          }
-        }
-    }];
-
+    const { performance } = this.props;
+    const data = performance.PfList;
+    const currStatus = this.props.user.currentUser.level-this.state.information.status;
     return(
       <GridContent>
         {/*view*/}
-        <Row>
+        <Row  gutter={1} >
           {/*sum and steps*/}
-          <Col span={17}>
+          <Col span={16}>
             <Card
+              style={{height:311}}
+              bordered={false}
             >
               <p style={{fontWeight:'bold',fontFamily:'微软雅黑'}} >
-                {this.state.infomation.name}:
+                {`${this.state.information.pf_name} 绩效评分`}:
               </p>
               <p style={{textAlign:'center',fontSize:'3rem',fontWeight:'bold',fontFamily:'微软雅黑'}} >
-                {this.state.infomation.sum}
+                {this.state.information.sum}
                 <span style={{fontSize:'1rem',fontWeight:'normal'}} >&nbsp;&nbsp;&nbsp;分</span>
               </p>
               <p style={{fontWeight:'bold',fontFamily:'微软雅黑'}} >
                 当前进度:
               </p>
-              <Steps style={{marginTop:35}} current={1}>
-                <Step title="Finished" description="This is a description." />
-                <Step title="In Progress" description="This is a description." />
-                <Step title="Waiting" description="This is a description." />
+              <Steps size="small" style={{marginTop:'2.15rem'}} current={this.state.information.status === 0 ? 3 : currStatus > 2 ? 2 : currStatus}>
+                <Step title="自评" description={`自评分数：${this.state.information.sum} 分`} />
+                <Step title="直接上级" description={currStatus>1?"已处理 ！":"等待处理"} />
+                <Step title="公司领导" description={this.state.information.status === 0 ? "已处理 ！":"等待处理"} />
+                <Step title={this.state.information.status === 0 ? "处理完毕":""}  />
               </Steps>
-
             </Card>
           </Col>
           {/*chart*/}
-          <Col  span={7}>
+          <Col  span={8}>
             <Card
+              bordered={false}
             >
               <Withline/>
             </Card>
           </Col>
         </Row>
         {/*list*/}
+        <Row style={{marginTop:16}}>
+          <List
+            bordered={false}
+            grid={{
+              gutter: 16, column: (data.length+1)>3?4:data.length+1
+            }}
+            dataSource={data}
+            renderItem={(item,index) => {
+              const clickI = () =>{
+                this.setState({information:item})
+              };
+              const del = () =>{
+                const {dispatch}=this.props;
+                dispatch({
+                  type:'performance/removePf',
+                  payload:item.id,
+                  callback:(res)=>{
+                    if (res===""){
+                      message.success('绩效记录删除成功！');
+                      dispatch({
+                        type:'performance/getPfList',
+                        callback:()=>{return}
+                      })
+                    } else {
+                      message.warning('绩效记录可能删除失败了！');
+                    }
+                  }
+                });
+                this.setState({information:this.props.performance.PfList[0]})
+              };
+              if (index === 0){
+                return (
+                  <div>
+                    <List.Item>
+                      <Card
+                        bordered={false}
+                        style={{height:138}}
+                      >
+                        <Row style={{marginTop:35,textAlign:'center'}} >
+                          <CreatPF  />
+                        </Row>
+
+                      </Card>
+                    </List.Item>
+                    <List.Item>
+                      <Card
+                        bordered={false}
+                        style={{height:138}}
+                        title={(<Icon type="file-text" />)}
+                        extra={(<a onClick={clickI} style={{textAlign:'center',fontSize:'1rem',fontFamily:'微软雅黑'}}>{item.pf_name} 绩效评分</a>)}
+                      >
+                        <Row>
+                          <Col style={{textAlign:'center'}} span={11}>
+                            <Button type="primary" ghost shape="circle" icon="edit" />
+                          </Col>
+                          <Col style={{textAlign:'center'}} span={2}>
+                            <Divider type="vertical" />
+                          </Col>
+                          <Col style={{textAlign:'center'}} span={11}>
+                            <Button type="danger" onClick={del} disabled={!(item.status === this.props.user.currentUser.level)} ghost shape="circle" icon="delete" />
+                          </Col>
+                        </Row>
+                      </Card>
+                    </List.Item>
+                  </div>
+
+                )
+              }
+              else {
+                return (
+                  <List.Item>
+                    <Card
+                      style={{height:138}}
+                      bordered={false}
+                      title={(<Icon type="file-text" />)}
+                      extra={(<a onClick={clickI} style={{textAlign:'center',fontSize:'1rem',fontFamily:'微软雅黑'}}>{item.pf_name} 绩效评分</a>)}
+                    >
+                      <Row>
+                        <Col style={{textAlign:'center'}} span={11}>
+                          <Button type="primary" ghost shape="circle" icon="edit" />
+                        </Col>
+                        <Col style={{textAlign:'center'}} span={2}>
+                          <Divider type="vertical" />
+                        </Col>
+                        <Col style={{textAlign:'center'}} span={11}>
+                          <Button type="danger" onClick={del} disabled={!(item.status === this.props.user.currentUser.level)} ghost shape="circle" icon="delete" />
+                        </Col>
+                      </Row>
+                    </Card>
+                  </List.Item>
+                )
+              }
+
+            }}
+          >
+            {data.length?null:(<List.Item>
+              <Card
+                bordered={false}
+                style={{height:138}}
+              >
+                <Row style={{marginTop:35,textAlign:'center'}} >
+                  <CreatPF  />
+                </Row>
+
+              </Card>
+            </List.Item>)}
+          </List>
+        </Row>
 
       </GridContent>
     )}

@@ -27,3 +27,12 @@ class ParaViewSet(viewsets.GenericViewSet,mixins.ListModelMixin):
 class UpdateParaViewSet(viewsets.GenericViewSet,mixins.UpdateModelMixin):
     queryset = Para.objects.all()
     serializer_class = UpdateParaSerializer
+
+class CurrtentParaViewSet(viewsets.GenericViewSet,mixins.ListModelMixin):
+    queryset = Para.objects.all()
+    serializer_class = ParaSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        self.queryset = Para.objects.filter(depart_id=user.depart_id,level=user.level)
+        return self.queryset

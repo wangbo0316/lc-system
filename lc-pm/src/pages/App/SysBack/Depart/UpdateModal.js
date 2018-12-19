@@ -43,6 +43,7 @@ class UpdateModal extends Component {
         <Button
           onClick={() => this.setState({ modal: true })}
           type="primary"
+          ghost
           shape="circle"
           icon="edit"
         />
