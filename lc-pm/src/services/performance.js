@@ -33,8 +33,8 @@ export async function getTranList(params) {
   let url = '/api/getTranList/';
   Object.keys(params).map((v,k)=>{
     if (k === 0){
-      url += '?'+k+'='+params[k]
-    } else url += '&'+k+'='+params[k]
+      url += '?'+v+'='+params[v]
+    } else url += '&'+v+'='+params[v]
   });
   return request(url);
 }

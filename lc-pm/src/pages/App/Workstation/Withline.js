@@ -12,48 +12,55 @@ import DataSet from "@antv/data-set";
 class Withline extends React.Component {
   render() {
     const { DataView } = DataSet;
-    const data = [
-      {
-        item: "Design",
-        v: 70,
-      },
-      {
-        item: "Development",
-        v: 60,
-      },
-      {
-        item: "Marketing",
-        v: 50,
-      },
-      {
-        item: "Users",
-        v: 40,
-      },
-      {
-        item: "Test",
-        v: 60,
-      },
-      {
-        item: "Language",
-        v: 70,
-      },
-      {
-        item: "Technology",
-        v: 50,
-      },
-      {
-        item: "Support",
-        v: 30,
-      },
-      {
-        item: "Sales",
-        v: 60,
-      },
-      {
-        item: "UX",
-        v: 50,
-      }
-    ];
+    // const data = [
+    //   {
+    //     item: "Design",
+    //     v: 70,
+    //   },
+    //   {
+    //     item: "Development",
+    //     v: 60,
+    //   },
+    //   {
+    //     item: "Marketing",
+    //     v: 50,
+    //   },
+    //   {
+    //     item: "Users",
+    //     v: 40,
+    //   },
+    //   {
+    //     item: "Test",
+    //     v: 60,
+    //   },
+    //   {
+    //     item: "Language",
+    //     v: 70,
+    //   },
+    //   {
+    //     item: "Technology",
+    //     v: 50,
+    //   },
+    //   {
+    //     item: "Support",
+    //     v: 30,
+    //   },
+    //   {
+    //     item: "Sales",
+    //     v: 60,
+    //   },
+    //   {
+    //     item: "UX",
+    //     v: 50,
+    //   }
+    // ];
+    const data = this.props.data;
+    const vArray = [];
+    data.map((v,i)=>{
+      vArray.push(v.v)
+    });
+
+    const max = Math.max.apply(null, vArray);
     const dv = new DataView().source(data);
     dv.transform({
       type: "fold",
@@ -66,7 +73,7 @@ class Withline extends React.Component {
     const cols = {
       score: {
         min: 0,
-        max: 80
+        max: max>0?max:10
       }
     };
 

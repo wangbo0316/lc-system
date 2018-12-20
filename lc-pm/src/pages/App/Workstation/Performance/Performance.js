@@ -46,7 +46,16 @@ class Performance extends  Component{
 
   render(){
     const { performance } = this.props;
-    const data = performance.PfList;
+    const chartObject = this.state.information.second_evaluat===""?{}:JSON.parse(this.state.information.second_evaluat);
+    delete chartObject['备注'];
+    const chartData = [];
+    Object.keys(chartObject).map(v=>{
+      chartData.push({
+        item:v,
+        v:parseFloat(chartObject[v])
+      })
+    });
+    const data = performance.PfList?performance.PfList:this.state.data;
     const currStatus = this.props.user.currentUser.level-this.state.information.status;
     return(
       <GridContent>
@@ -81,7 +90,7 @@ class Performance extends  Component{
             <Card
               bordered={false}
             >
-              <Withline/>
+              <Withline data={chartData} />
             </Card>
           </Col>
         </Row>
@@ -139,7 +148,7 @@ class Performance extends  Component{
                       >
                         <Row>
                           <Col style={{textAlign:'center'}} span={11}>
-                            <Button type="primary" ghost shape="circle" icon="edit" />
+                            <UpdatePF record_id={item.id} record={JSON.parse(item.self_evaluat)} pfName={item.pf_name} isDis={!(item.status === this.props.user.currentUser.level)} />
                           </Col>
                           <Col style={{textAlign:'center'}} span={2}>
                             <Divider type="vertical" />
@@ -165,7 +174,7 @@ class Performance extends  Component{
                     >
                       <Row>
                         <Col style={{textAlign:'center'}} span={11}>
-                          <Button type="primary" ghost shape="circle" icon="edit" />
+                          <UpdatePF record_id={item.id} record={JSON.parse(item.self_evaluat)} pfName={item.pf_name} isDis={!(item.status === this.props.user.currentUser.level)} />
                         </Col>
                         <Col style={{textAlign:'center'}} span={2}>
                           <Divider type="vertical" />

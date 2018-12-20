@@ -53,7 +53,7 @@ export default {
     saveTran(state, action) {
       return {
         ...state,
-        TranList: action.payload,
+        TranList: action.payload.results,
       };
     },
   },

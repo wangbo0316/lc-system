@@ -2,12 +2,13 @@ from .models import Performance
 from .serializers import PerformanceSerializer,PfListSerializer
 from rest_framework import viewsets,filters,mixins,status
 from rest_framework.response import Response
-from django_filters.rest_framework import DjangoFilterBackend
-from .filters import PerformanceFilter
-from users.models import UserProfile
+from rest_framework.pagination import PageNumberPagination
 from depart.models import Department
+from django.db.models import Q
 
 # Create your views here.
+class PfListPagination(PageNumberPagination):
+    page_size = 10
 
 class PerformanceViewSet(viewsets.ModelViewSet):
     '''
@@ -43,6 +44,7 @@ class PfListViewSet(viewsets.GenericViewSet,mixins.ListModelMixin):
     '''
     children_depart_ids = []
     queryset = Performance.objects.all()
+    pagination_class = PfListPagination
     serializer_class = PfListSerializer
     # filter_backends = (DjangoFilterBackend, filters.SearchFilter)
     # filter_class = PerformanceFilter
@@ -56,11 +58,15 @@ class PfListViewSet(viewsets.GenericViewSet,mixins.ListModelMixin):
             self.get_children_depart(i.id)
 
     def get_queryset(self):
-        user_id = self.request.query_params.get('user_id',0)
         search = self.request.query_params.get('search',0)
-        user = UserProfile.objects.get(id=user_id)
+        user = self.request.user
         self.get_children_depart(user.depart_id)
-        results = Performance.objects.filter(user__depart_id__in=self.children_depart_ids,user__level__gt=user.level)
+        self.children_depart_ids.append(user.depart_id)
+        results = Performance.objects.filter(
+            (Q(user__level__gt=user.level) & (Q(second_sum__gte=95) | Q(second_sum__lt=90))) | Q(user__level = (user.level+1)),
+            user__depart_id__in=self.children_depart_ids,
+            status=user.level
+        )
         if search:
             results = results.filter(pf_name__contains=search)
         self.queryset = results.order_by('-add_time')

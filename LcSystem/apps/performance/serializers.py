@@ -9,7 +9,7 @@ Created On 18-11-13 下午3:07
 
 from rest_framework import serializers
 from .models import Performance
-from users.serializers import UserSerializer
+from users.serializers import UserDetailSerializer
 
 class PerformanceSerializer(serializers.ModelSerializer):
 
@@ -20,7 +20,7 @@ class PerformanceSerializer(serializers.ModelSerializer):
 
 
 class PfListSerializer(serializers.ModelSerializer):
-    user = UserSerializer()
+    user = UserDetailSerializer()
     class Meta:
         model = Performance
         fields = '__all__'

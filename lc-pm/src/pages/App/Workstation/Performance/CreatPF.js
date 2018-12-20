@@ -1,9 +1,10 @@
 import React,{Component} from 'react'
-import {Button,Modal,Row,Col,Form,InputNumber,DatePicker,Radio,message  } from 'antd'
+import {Button,Modal,Row,Col,Form,InputNumber,DatePicker,Radio,message ,Input } from 'antd'
 import {connect} from 'dva'
 const FormItem = Form.Item;
 const { MonthPicker } = DatePicker;
 const RadioGroup = Radio.Group;
+const { TextArea } = Input;
 
 
 @connect(({ para,user,performance, loading }) => ({
@@ -25,6 +26,15 @@ class CreatPF extends Component{
     })
   }
   render() {
+    const { getFieldDecorator, getFieldsValue } = this.props.form;
+    let Fields = getFieldsValue() ? getFieldsValue() : {};
+    delete Fields.dateMonth;
+    delete Fields.mode;
+    delete Fields['备注'];
+    let FieldsKey = Object.keys(Fields);
+    let scoreSum = 0;
+    FieldsKey.map(v => scoreSum = scoreSum + parseFloat(Fields[v]));
+
     const handleOk = () => {
       this.props.form.validateFields((err,val)=>{
         if (!err){
@@ -34,6 +44,8 @@ class CreatPF extends Component{
           let mode = val.mode;
           delete val.mode;
           delete val.dateMonth;
+          const json_data = JSON.stringify(val);
+          delete val['备注'];
           let sum = 0;
           Object.keys(val).map((v)=>{
             sum += parseFloat(val[v])
@@ -41,8 +53,8 @@ class CreatPF extends Component{
           const post_data = {
             user:parseInt(user.currentUser.id),
             pf_name : pf_name,
-            self_evaluat : JSON.stringify(val),
-            second_evaluat : JSON.stringify(val),
+            self_evaluat : json_data,
+            second_evaluat : json_data,
             status : mode === 1 ? parseInt(user.currentUser.level):parseInt(user.currentUser.level)-1,
             sum : sum,
             second_sum : sum
@@ -53,7 +65,6 @@ class CreatPF extends Component{
             type:'performance/createPf',
             payload:post_data,
             callback:(res)=>{
-              console.log(res)
               if (res) {
                 if (res.status){
                   message.success('绩效记录添加成功！');
@@ -88,7 +99,7 @@ class CreatPF extends Component{
         span: 20,
       },
     };
-    const { getFieldDecorator, getFieldValue } = this.props.form;
+
     const formItems = keys.map((k, index) => (
       <Row key={index}>
         <Col span={24}>
@@ -103,7 +114,7 @@ class CreatPF extends Component{
               rules: [{
                 required: true,
                 whitespace: true,
-                message: '请输入科目名称!',
+                message: '请输入得分!',
               }],
             })(
               <InputNumber style={{ width: '100%' }} min={0} max={parseFloat(currPara[k])} precision={2}/>,
@@ -116,8 +127,21 @@ class CreatPF extends Component{
     return (
       <div>
         <Button  onClick={()=>this.setState({modal:true})} type="dashed"  shape="circle" icon="plus" />
-        <Modal title="新增绩效" visible={this.state.modal} onOk={handleOk} onCancel={handleCancel}>
-          <Form>
+        <Modal width={'40%'} title="新增绩效" visible={this.state.modal} onOk={handleOk} onCancel={handleCancel}>
+          <Form
+          >
+            <Row>
+              <Col span={12}>
+                <p style={{ fontFamily: '微软雅黑', fontSize: '1.5rem', fontWeight: 'blod' }}>
+                  当前总分:
+                </p>
+              </Col>
+              <Col style={{ textAlign: 'right' }} span={12}>
+                <p style={{ fontFamily: '微软雅黑', fontSize: '1.5rem', fontWeight: 'blod' }}>
+                  {scoreSum}
+                </p>
+              </Col>
+            </Row>
             <FormItem
               {...formItemLayout}
               label='绩效月份'
@@ -128,6 +152,34 @@ class CreatPF extends Component{
               )}
             </FormItem>
             {formItems}
+            <FormItem
+              {...formItemLayout}
+              label='加分项'
+              required={true}
+            >
+              {getFieldDecorator('加分项',{
+                validateTrigger: 'onBlur',
+                initialValue: '0',
+                rules: [{
+                  required: true,
+                  whitespace: true,
+                  message: '请输入得分!',
+                }],
+              })(
+                <InputNumber style={{ width: '100%' }} min={0} max={100} precision={2}/>,
+              )}
+            </FormItem>
+            <FormItem
+              {...formItemLayout}
+              label='备注'
+              required={true}
+            >
+              {getFieldDecorator('备注',{
+                initialValue: ''
+              })(
+                <TextArea  autosize={{ minRows: 2}} />
+              )}
+            </FormItem>
             <FormItem
               {...formItemLayout}
               label='模式'
