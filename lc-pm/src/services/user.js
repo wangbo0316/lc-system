@@ -33,3 +33,16 @@ export async function createUser(params) {
     },
   });
 }
+
+export async function valiPwd(params) {
+  return request(`/api/fixPwd/?pwd=${params}`)
+}
+
+export async function fixPwd(params) {
+  return request('/api/fixPwd/', {
+    method: 'POST',
+    body: {
+      ...params,
+    },
+  });
+}

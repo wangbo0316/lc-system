@@ -32,6 +32,11 @@ class UserSerializer(serializers.ModelSerializer):
         group.user_set.set([user])
         return user
 
+class FixPwdSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = (['password'])
+
 
 class CurrentUserSerializer(serializers.ModelSerializer):
     class Meta:

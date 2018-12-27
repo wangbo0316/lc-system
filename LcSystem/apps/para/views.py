@@ -2,6 +2,7 @@ from .models import Para
 from depart.models import Department
 from .serializers import ParaSerializer,UpdateParaSerializer
 from rest_framework import viewsets,mixins
+from users.models import UserProfile
 # Create your views here.
 
 
@@ -35,4 +36,14 @@ class CurrtentParaViewSet(viewsets.GenericViewSet,mixins.ListModelMixin):
     def get_queryset(self):
         user = self.request.user
         self.queryset = Para.objects.filter(depart_id=user.depart_id,level=user.level)
+        return self.queryset
+
+class OneParaViewSet(viewsets.GenericViewSet,mixins.ListModelMixin):
+    queryset = Para.objects.all()
+    serializer_class = ParaSerializer
+
+    def get_queryset(self):
+        user_id = self.request.query_params.get("user_id",0)
+        user = UserProfile.objects.get(id=user_id)
+        self.queryset = Para.objects.filter(depart_id=user.depart_id, level=user.level)
         return self.queryset

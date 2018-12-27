@@ -69,19 +69,9 @@ export default class GlobalHeaderRight extends PureComponent {
       theme,
     } = this.props;
 
-    const Cancel = () => this.setState({modelOpen:false})
+    const Cancel = () => this.setState({modelOpen:false});
 
-    const Submit = () => {
-      const form = this.formRef.props.form;
-      form.validateFields((err,values) => {
-        console.log(form.getFieldsValue())
-        if (!err) {
-          this.setState({modelOpen:false})
-
-        }
-      })
-
-    }
+    const Submit = () => this.setState({modelOpen:false});
 
     const pwdClick = (para) => {
       if (para.key === 'fixPwd'){

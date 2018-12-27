@@ -18,12 +18,12 @@ from django.urls import path,include,re_path
 from django.views.static import serve
 from .settings import MEDIA_ROOT
 from rest_framework.routers import DefaultRouter
-from performance.views import PerformanceViewSet,PfListViewSet
+from performance.views import PerformanceViewSet,PfListViewSet,PfUpdateViewSet,UploadPf
 from rest_framework.authtoken import views
 from rest_framework_jwt.views import obtain_jwt_token
-from users.views import UserViewSet,CurrentUserViewSet,validateUsername
+from users.views import UserViewSet,CurrentUserViewSet,validateUsername,FixPwdViewSet
 from depart.views import DepartViewSet,DepartParaViewSet
-from para.views import ParaViewSet,UpdateParaViewSet,CurrtentParaViewSet
+from para.views import ParaViewSet,UpdateParaViewSet,CurrtentParaViewSet,OneParaViewSet
 
 
 router = DefaultRouter()
@@ -36,11 +36,16 @@ router.register(r'currentUser', CurrentUserViewSet)
 router.register(r'departPara', DepartParaViewSet)
 router.register(r'updatePara', UpdateParaViewSet)
 router.register(r'getCurrPara', CurrtentParaViewSet)
+router.register(r'updatePF', PfUpdateViewSet)
+router.register(r'onePara', OneParaViewSet)
+router.register(r'fixPwd', FixPwdViewSet)
+
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('valiUser/',validateUsername),
+    path('uploadPf/',UploadPf),
     re_path(r'media/(?P<path>.*)$',serve,{'document_root':MEDIA_ROOT}),
     path('', include(router.urls)),
     re_path(r'^api-auth/', include('rest_framework.urls')),

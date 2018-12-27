@@ -89,7 +89,7 @@ class CreatPF extends Component{
     };
     const handleCancel = () => {this.setState({modal:false})};
     const {para} = this.props;
-    let currPara = para.currPara.content_json?JSON.parse(para.currPara.content_json):{};
+    let currPara = para.currPara&&para.currPara.content_json?JSON.parse(para.currPara.content_json):{};
     let keys = Object.keys(currPara);
     const formItemLayout = {
       labelCol: {

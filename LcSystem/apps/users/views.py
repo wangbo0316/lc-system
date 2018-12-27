@@ -1,6 +1,6 @@
 from .models import UserProfile
 from depart.models import Department
-from .serializers import UserSerializer,CurrentUserSerializer
+from .serializers import UserSerializer,CurrentUserSerializer,FixPwdSerializer
 from rest_framework import viewsets,mixins,status
 from rest_framework.response import Response
 from django.http import HttpResponse
@@ -73,3 +73,27 @@ def validateUsername(req):
             return HttpResponse('NO')
         except:
             return HttpResponse('OK')
+
+class FixPwdViewSet(viewsets.GenericViewSet,mixins.ListModelMixin,mixins.CreateModelMixin):
+    serializer_class = FixPwdSerializer
+    queryset = UserProfile.objects.all()
+
+    def get_queryset(self):
+        user = self.request.user
+        old_pwd = self.request.query_params.get("pwd",0)
+        print(UserProfile.objects.get(id = user.id).check_password(old_pwd))
+        if UserProfile.objects.get(id = user.id).check_password(old_pwd):
+            return UserProfile.objects.filter(id = user.id)
+        else:
+            return UserProfile.objects.filter(id = 0)
+
+    def create(self, request, *args, **kwargs):
+        old_pwd = request.data['oldPwd']
+        new_pwd = request.data['newPwd']
+        user = UserProfile.objects.get(id = self.request.user.id)
+        if user.check_password(old_pwd):
+            user.set_password(new_pwd)
+            user.save()
+            return Response({"status": "OK"}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({"status": "Fails"}, status=status.HTTP_201_CREATED)

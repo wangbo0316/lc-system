@@ -13,18 +13,28 @@ const RadioGroup = Radio.Group;
   loading: loading.effects['para/getCurrPara'],
 }))
 
-class UpdatePF extends Component{
+class UpdateTran extends Component{
   state = {
-    modal:false
+    modal:false,
+    para:""
   };
   componentWillMount() {
-
-
+    const {dispatch,record_vo} = this.props;
+    dispatch({
+      type:"para/getOnePara",
+      payload: record_vo.user.id,
+      callback:(res)=>{
+        this.setState({para:res[0].content_json})
+      }
+    });
   };
   render() {
-    const {para,dispatch} = this.props;
-    let currPara = para.currPara&&para.currPara.content_json?JSON.parse(para.currPara.content_json):{};
-    const {record , isDis , pfName} = this.props;
+
+    const {para} = this.state;
+
+    let currPara = para?JSON.parse(para):{};
+    console.log(currPara)
+    const {record  , record_vo} = this.props;
     let keys = Object.keys(record);
     const formItemLayout = {
       labelCol: {
@@ -109,12 +119,9 @@ class UpdatePF extends Component{
             sum += parseFloat(val[v])
           });
           const post_data = {
-            id : this.props.record_id,
-            pf_name:pfName,
-            self_evaluat : json_data,
+            ...record_vo,
             second_evaluat : json_data,
             status : mode === 1 ? parseInt(user.currentUser.level):parseInt(user.currentUser.level)-1,
-            sum : sum,
             second_sum : sum
           };
           dispatch({
@@ -124,8 +131,10 @@ class UpdatePF extends Component{
               if (res){
                 message.success('数据更新成功！');
                 dispatch({
-                  type: 'performance/getPfList',
-                  callback:()=>{return}
+                  type: 'performance/getTranList',
+                  payload:{
+                    page:1
+                  },
                 })
               } else {
                 message.warning('数据更新可能失败了！')
@@ -144,10 +153,9 @@ class UpdatePF extends Component{
           onClick={()=>this.setState({modal:true})}
           type="primary"
           ghost
-          disabled={isDis}
           shape="circle"
           icon="edit" />
-        <Modal width={'40%'} title={`${pfName} 绩效评分`} onCancel={handlerCancel} onOk={handlerOk} visible={this.state.modal}
+        <Modal width={'40%'} title={`${record_vo.pf_name} 绩效评分`} onCancel={handlerCancel} onOk={handlerOk} visible={this.state.modal}
         >
           <Form>
             <Row>
@@ -185,4 +193,4 @@ class UpdatePF extends Component{
   }
 
 }
-export default Form.create()(UpdatePF)
+export default Form.create()(UpdateTran)

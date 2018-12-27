@@ -1,11 +1,11 @@
-import { updatePf,createPf,getPfList,getTranList,removePf} from '@/services/performance';
+import { updatePf,createPf,getPfList,getTranList,removePf,uploadPf} from '@/services/performance';
 
 export default {
   namespace: 'performance',
 
   state: {
     PfList:[],
-    TranList:[]
+    TranList:{},
   },
 
   effects: {
@@ -27,6 +27,10 @@ export default {
 
     *removePf({payload,callback}, { call, put }) {
       const response = yield call(removePf,payload);
+      callback(response)
+    },
+    *uploadPf({payload,callback}, { call }) {
+      const response = yield call(uploadPf,payload);
       callback(response)
     },
 
@@ -53,7 +57,7 @@ export default {
     saveTran(state, action) {
       return {
         ...state,
-        TranList: action.payload.results,
+        TranList: action.payload,
       };
     },
   },

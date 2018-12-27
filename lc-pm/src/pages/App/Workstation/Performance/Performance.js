@@ -71,7 +71,7 @@ class Performance extends  Component{
                 {`${this.state.information.pf_name} 绩效评分`}:
               </p>
               <p style={{textAlign:'center',fontSize:'3rem',fontWeight:'bold',fontFamily:'微软雅黑'}} >
-                {this.state.information.sum}
+                {this.state.information.second_sum}
                 <span style={{fontSize:'1rem',fontWeight:'normal'}} >&nbsp;&nbsp;&nbsp;分</span>
               </p>
               <p style={{fontWeight:'bold',fontFamily:'微软雅黑'}} >

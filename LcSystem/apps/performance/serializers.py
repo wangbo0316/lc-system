@@ -25,4 +25,7 @@ class PfListSerializer(serializers.ModelSerializer):
         model = Performance
         fields = '__all__'
 
-
+class PfUpdateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Performance
+        fields = ["status","self_evaluat","second_evaluat","sum","second_sum"]

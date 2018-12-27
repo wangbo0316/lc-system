@@ -4,6 +4,8 @@ import {
   createUser,
   updateUser,
   removeUser,
+  valiPwd,
+  fixPwd
 } from '@/services/user';
 
 export default {
@@ -34,6 +36,16 @@ export default {
     },
     *createUser({ payload, callback }, { call, put }) {
       const response = yield call(createUser, payload);
+      callback(response);
+    },
+
+    *fixPwd({ payload, callback }, { call }) {
+      const response = yield call(fixPwd, payload);
+      callback(response);
+    },
+
+    *valiPwd({ payload, callback }, { call }) {
+      const response = yield call(valiPwd, payload);
       callback(response);
     },
 

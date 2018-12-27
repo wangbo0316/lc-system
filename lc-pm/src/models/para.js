@@ -1,4 +1,4 @@
-import { updatePara,getParaList,getCurrPara} from '@/services/para';
+import { updatePara,getParaList,getCurrPara,getOnePara} from '@/services/para';
 
 export default {
   namespace: 'para',
@@ -27,6 +27,11 @@ export default {
 
     *update({ payload ,callback}, { call, put }) {
       const response = yield call(updatePara,payload);
+      callback(response)
+    },
+
+    *getOnePara({ payload ,callback}, { call, put }) {
+      const response = yield call(getOnePara,payload);
       callback(response)
     },
 
