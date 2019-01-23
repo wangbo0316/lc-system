@@ -29,7 +29,8 @@ class UserSerializer(serializers.ModelSerializer):
         user.set_password('88888888')
         user.save()
         group = Group.objects.get(name='普通用户')
-        group.user_set.set([user])
+        # group.user_set.set([user])
+        group.user_set.add(user)
         return user
 
 class FixPwdSerializer(serializers.ModelSerializer):
