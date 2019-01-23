@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Button,Modal,Row,Col,Form,InputNumber,DatePicker,Radio,message ,Input } from 'antd'
+import {Button,Modal,Row,Col,Form,InputNumber,DatePicker,Radio,message ,Input ,Tooltip} from 'antd'
 import {connect} from 'dva'
 const FormItem = Form.Item;
 const { MonthPicker } = DatePicker;
@@ -20,7 +20,7 @@ class CreatPF extends Component{
   };
   componentWillMount() {
 
-    const { dispatch } = this.props
+    const { dispatch } = this.props;
     dispatch({
       type:'para/getCurrPara'
     })
@@ -102,25 +102,29 @@ class CreatPF extends Component{
 
     const formItems = keys.map((k, index) => (
       <Row key={index}>
-        <Col span={24}>
-          <FormItem
-            {...formItemLayout}
-            label={k}
-            required={true}
-          >
-            {getFieldDecorator(k, {
-              validateTrigger: 'onBlur',
-              initialValue: '0',
-              rules: [{
-                required: true,
-                whitespace: true,
-                message: '请输入得分!',
-              }],
-            })(
-              <InputNumber style={{ width: '100%' }} min={0} max={parseFloat(currPara[k])} precision={2}/>,
-            )}
-          </FormItem>
-        </Col>
+        <Tooltip placement="topRight" title={`该项最高分为：${parseFloat(currPara[k])}`}>
+          <Col span={24}>
+
+            <FormItem
+              {...formItemLayout}
+              label={k}
+              required={true}
+            >
+              {getFieldDecorator(k, {
+                validateTrigger: 'onBlur',
+                initialValue: '0',
+                rules: [{
+                  required: true,
+                  whitespace: true,
+                  message: '请输入得分!',
+                }],
+              })(
+                <InputNumber style={{ width: '100%' }} min={0} max={parseFloat(currPara[k])} precision={2}/>,
+              )}
+            </FormItem>
+
+          </Col>
+        </Tooltip>
       </Row>
     ));
 

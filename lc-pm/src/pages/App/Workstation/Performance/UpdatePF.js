@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import {connect} from 'dva'
-import {Row,Col,Form,Modal,Button,InputNumber,Input,Radio,message} from 'antd'
+import {Row,Col,Form,Modal,Button,InputNumber,Input,Radio,message,Tooltip} from 'antd'
 const FormItem = Form.Item;
 const { TextArea } = Input;
 const RadioGroup = Radio.Group;
@@ -45,6 +45,7 @@ class UpdatePF extends Component{
       if (k === '备注'){
         return(
           <Row key={index}>
+
             <Col span={24}>
               <FormItem
                 {...formItemLayout}
@@ -57,18 +58,20 @@ class UpdatePF extends Component{
                   rules: [{
                     required: true,
                     whitespace: true,
-                    message: '请输入得分!',
+                    message: '请输入备注!',
                   }],
                 })(
                   <TextArea  autosize={{ minRows: 2}} />,
                 )}
               </FormItem>
             </Col>
+
           </Row>
         )
       } else {
         return (
           <Row key={index}>
+            <Tooltip placement="topRight" title={`该项最高分为：${k==='加分项'?100:parseFloat(currPara[k])}`}>
             <Col span={24}>
 
               <FormItem
@@ -89,6 +92,7 @@ class UpdatePF extends Component{
                 )}
               </FormItem>
             </Col>
+            </Tooltip>
           </Row>
         )
       }
